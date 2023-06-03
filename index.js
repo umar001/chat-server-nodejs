@@ -4,22 +4,14 @@ const socketIO = require('socket.io');
 const cors = require('cors');
 
 const app = express();
-const allowedOrigins = ['http://localhost:3001'];
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-};
-
-app.use(cors(corsOptions));
 app.use(cors());
+
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+    cors: {
+        origin: "*"
+    }
+});
 
 const clients = [];
 
